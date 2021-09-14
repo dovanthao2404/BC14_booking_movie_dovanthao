@@ -1,18 +1,23 @@
 import dataChair from "./../../data/danhSachGhe.json"
 import * as ActionBookingTicket from "./../constants"
 
-const dataProcessed = dataChair.map((chair) => {
-  const chairCurrent = { ...chair }
-  chairCurrent.danhSachGhe = chairCurrent.danhSachGhe.map((chair) => {
+const dataLocal = JSON.parse(localStorage.getItem("dataLocal"))
+let dataProcessed = [];
+if (!dataLocal) {
+  dataProcessed = dataChair.map((chair) => {
     const chairCurrent = { ...chair }
-    chairCurrent.gheDangChon = false;
+    chairCurrent.danhSachGhe = chairCurrent.danhSachGhe.map((chair) => {
+      const chairCurrent = { ...chair }
+      chairCurrent.gheDangChon = false;
 
-    return chairCurrent
+      return chairCurrent
+    })
+    return chairCurrent;
   })
-  return chairCurrent;
-})
+}
+
 const bookingTicket = {
-  dataChair: dataProcessed,
+  dataChair: dataLocal || dataProcessed,
 }
 
 export const bookingTicketReducer = (state = bookingTicket, action) => {
@@ -22,6 +27,8 @@ export const bookingTicketReducer = (state = bookingTicket, action) => {
       const statusChairChosen = temp[action.payload.rowNumber].danhSachGhe[action.payload.colNumber].gheDangChon
       temp[action.payload.rowNumber].danhSachGhe[action.payload.colNumber].gheDangChon = !statusChairChosen;
       state.dataChair = temp
+      localStorage.setItem("dataLocal", JSON.stringify(state.dataChair))
+
       return { ...state }
 
     case ActionBookingTicket.PAYMENT:
@@ -40,6 +47,8 @@ export const bookingTicketReducer = (state = bookingTicket, action) => {
       })
 
       state.dataChair = tempData;
+      localStorage.setItem("dataLocal", JSON.stringify(state.dataChair))
+
       return { ...state }
     default:
       return { ...state }
