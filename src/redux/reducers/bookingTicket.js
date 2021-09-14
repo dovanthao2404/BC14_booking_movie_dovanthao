@@ -19,8 +19,8 @@ export const bookingTicketReducer = (state = bookingTicket, action) => {
   switch (action.type) {
     case ActionBookingTicket.UPDATE_STATUS_CHAIR:
       const temp = [...state.dataChair]
-      const statusChairChosen = temp[action.payload.rowNumber + 1].danhSachGhe[action.payload.colNumber].gheDangChon
-      temp[action.payload.rowNumber + 1].danhSachGhe[action.payload.colNumber].gheDangChon = !statusChairChosen;
+      const statusChairChosen = temp[action.payload.rowNumber].danhSachGhe[action.payload.colNumber].gheDangChon
+      temp[action.payload.rowNumber].danhSachGhe[action.payload.colNumber].gheDangChon = !statusChairChosen;
       state.dataChair = temp
       return { ...state }
 

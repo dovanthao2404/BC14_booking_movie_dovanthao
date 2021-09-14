@@ -1,8 +1,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { updateStatusChair } from '../redux/actions'
 // import { v4 as uuidv4 } from 'uuid';
 
 class TableInfo extends Component {
+
+
+  // Hàm xử lý khi nhấn vào nút hủy trong table
+  handleClickCannel = (chair) => {
+    if (chair.daDat !== true) {
+      this.props.updateStatusChair(chair)
+    }
+  }
 
 
   // Xử lý rennder tBody của phần tính tiền
@@ -13,14 +22,17 @@ class TableInfo extends Component {
     // Lặp trong data xem có ghế nào có thuộc tính gheDangChon = true thì append vào table
     bookingTicket.dataChair.forEach((chair, key) => {
       if (key !== 0) {
-        chair.danhSachGhe.forEach((chairCurrent) => {
+        chair.danhSachGhe.forEach((chairCurrent, keyCurrent) => {
           if (chairCurrent.gheDangChon === true && chairCurrent.daDat === false) {
+            const chairTemp = { ...chair, rowNumber: key, colNumber: keyCurrent }
+            // console.log("info", chairTemp)
+
             listTR.push(
               <tr key={chairCurrent.soGhe}>
                 <td>{chairCurrent.soGhe}</td>
                 <td>{chairCurrent.gia}</td>
                 <td>
-                  <button className="btn btn-danger">X</button>
+                  <button className="btn btn-danger" onClick={() => this.handleClickCannel(chairTemp)}>X</button>
                 </td>
               </ tr>)
           }
@@ -86,5 +98,11 @@ const mapStateToProps = (state) => {
     bookingTicket: state.bookingTicketReducer
   }
 }
-
-export default connect(mapStateToProps)(TableInfo)
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    updateStatusChair: (chair) => {
+      dispatch(updateStatusChair(chair))
+    }
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(TableInfo)

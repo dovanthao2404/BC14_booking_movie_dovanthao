@@ -33,7 +33,7 @@ class TableSelectChair extends Component {
 
     // Render row
     let table = data.map((row, key) => {
-      const rowNumber = key
+      const rowNumber = key + 1;
       return <tr key={key} >
         <td key={key} className="p-2">
           {row.hang}
@@ -41,7 +41,7 @@ class TableSelectChair extends Component {
         {row.danhSachGhe.map((chair, key) => {
           const chairTemp = { ...chair, rowNumber, colNumber: key }
           let gheDangChon = chairTemp.gheDangChon ? "gheDangChon" : ""
-          // render col
+          // console.log("slect", chairTemp)
           return <td key={key} className="p-2">
             <button className={chair.daDat ? "gheDuocChon" : "ghe " + gheDangChon}
               onClick={() => {
