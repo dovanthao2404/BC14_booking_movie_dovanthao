@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-
+import { payment } from "./../redux/actions"
 class Payment extends Component {
+
+  handlePayment = (listChair) => {
+    this.props.payment(listChair)
+  }
+
   renderInfo = () => {
     const { dataChair } = this.props.bookingTicket
     let totalSalary = 0;
     let totalChair = 0;
-    let flag = false
+    let flag = false;
+    const listChair = []
     for (let i = 0; i < dataChair.length; i++) {
       if (i === 0) {
         continue;
@@ -17,6 +23,7 @@ class Payment extends Component {
           flag = true;
           totalChair++;
           totalSalary += danhSachGhe[j].gia;
+          listChair.push(danhSachGhe[j])
         }
       }
     }
@@ -25,7 +32,7 @@ class Payment extends Component {
         <>
           <h3>Tổng số ghế: {totalChair}</h3>
           <h3>Tổng tiền: {totalSalary}</h3>
-          <button className="btn btn-success">Thanh toán</button>
+          <button className="btn btn-success" onClick={() => this.handlePayment(listChair)}>Thanh toán</button>
         </>
       )
     }
@@ -46,8 +53,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    dispatch1: () => {
-      dispatch()
+    payment: (listChair) => {
+      dispatch(payment(listChair))
     }
   }
 }

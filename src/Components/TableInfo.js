@@ -29,13 +29,16 @@ class TableInfo extends Component {
 
   renderTable = () => {
     const { dataChair } = this.props.bookingTicket
-    let flag = false
+    let flag = false;
     for (let i = 0; i < dataChair.length; i++) {
-      const danhSachGhe = [...dataChair[i].danhSachGhe]
-      for (let j = 0; j < danhSachGhe.length; j++) {
-        if (danhSachGhe[j].gheDangChon === true) {
-          flag = true;
-          break;
+      if (i !== 0) {
+        const listChair = [...dataChair[i].danhSachGhe]
+        for (let j = 0; j < listChair.length; j++) {
+          if (listChair[j].gheDangChon === true) {
+            console.log(listChair[j])
+            flag = true;
+            break;
+          }
         }
       }
       if (flag) {

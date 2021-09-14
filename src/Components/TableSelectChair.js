@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import TableRow from './TableRow';
+import { updateStatusChair } from '../redux/actions';
+// import TableRow from './TableRow';
 
 class TableSelectChair extends Component {
   renderTHead = () => {
@@ -12,15 +13,36 @@ class TableSelectChair extends Component {
     return tHead;
   }
 
+  handleClickChair = (chair) => {
+    if (chair.daDat !== true) {
+      this.props.updateStatusChair(chair)
+    }
+  }
+
   renderDataChair = () => {
 
-    const data = [...this.props.dataChair]
+    const { bookingTicket } = this.props
+    const data = [...bookingTicket.dataChair]
     data.shift()
-
     let table = data.map((row, key) => {
+      const rowNumber = key
       return <tr key={key} >
-        <TableRow row={row} />
-      </tr>
+        <td key={key} className="p-2">
+          {row.hang}
+        </td >
+        {row.danhSachGhe.map((chair, key) => {
+          const chairTemp = { ...chair, rowNumber, colNumber: key }
+          let gheDangChon = chairTemp.gheDangChon ? "gheDangChon" : ""
+
+          return <td key={key} className="p-2">
+            <button className={chair.daDat ? "gheDuocChon" : "ghe " + gheDangChon}
+              onClick={() => {
+                this.handleClickChair(chairTemp)
+              }}
+            >{chair.soGhe}</button>
+          </td>
+        })}
+      </tr >
     })
     table = table.flat();
     return table
@@ -42,13 +64,13 @@ class TableSelectChair extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    dataChair: state.bookingTicketReducer.dataChair
+    bookingTicket: state.bookingTicketReducer
   }
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    dispatch1: () => {
-      dispatch({})
+    updateStatusChair: (chair) => {
+      dispatch(updateStatusChair(chair))
     }
   }
 }
