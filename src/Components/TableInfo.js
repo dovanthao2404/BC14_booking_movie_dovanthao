@@ -4,21 +4,25 @@ import { connect } from 'react-redux'
 
 class TableInfo extends Component {
 
+
+  // Xử lý rennder tBody của phần tính tiền
   renderTBody = () => {
     const { bookingTicket } = this.props
     const listTR = []
+
+    // Lặp trong data xem có ghế nào có thuộc tính gheDangChon = true thì append vào table
     bookingTicket.dataChair.forEach((chair, key) => {
       if (key !== 0) {
-        chair.danhSachGhe.forEach((chairCurrent, keyCurrent) => {
+        chair.danhSachGhe.forEach((chairCurrent) => {
           if (chairCurrent.gheDangChon === true && chairCurrent.daDat === false) {
-            const idCurrent = key + 1 * keyCurrent * Math.random() * Math.random() * Math.random() * Math.random() * Math.random() * Math.random() * Math.random();
-            listTR.push(<tr key={idCurrent}>
-              <td>{chairCurrent.soGhe}</td>
-              <td>{chairCurrent.gia}</td>
-              <td>
-                <button className="btn btn-danger">X</button>
-              </td>
-            </ tr>)
+            listTR.push(
+              <tr key={chairCurrent.soGhe}>
+                <td>{chairCurrent.soGhe}</td>
+                <td>{chairCurrent.gia}</td>
+                <td>
+                  <button className="btn btn-danger">X</button>
+                </td>
+              </ tr>)
           }
         })
       }
@@ -27,6 +31,9 @@ class TableInfo extends Component {
     return listTR;
   }
 
+
+
+  // Hàm xử lý render table số ghế đã chọn
   renderTable = () => {
     const { dataChair } = this.props.bookingTicket
     let flag = false;
@@ -35,7 +42,6 @@ class TableInfo extends Component {
         const listChair = [...dataChair[i].danhSachGhe]
         for (let j = 0; j < listChair.length; j++) {
           if (listChair[j].gheDangChon === true) {
-            console.log(listChair[j])
             flag = true;
             break;
           }
@@ -75,7 +81,7 @@ class TableInfo extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     bookingTicket: state.bookingTicketReducer
   }

@@ -13,6 +13,8 @@ class Payment extends Component {
     let totalChair = 0;
     let flag = false;
     const listChair = []
+    // Kiểm tra trong mảng có ghế đang chọn không nếu có thì đổi cờ, thêm vào listChair, tính tổng số ghế và tổng tiền
+
     for (let i = 0; i < dataChair.length; i++) {
       if (i === 0) {
         continue;
@@ -20,13 +22,16 @@ class Payment extends Component {
       const danhSachGhe = [...dataChair[i].danhSachGhe]
       for (let j = 0; j < danhSachGhe.length; j++) {
         if (danhSachGhe[j].gheDangChon === true && danhSachGhe[j].daDat === false) {
+
           flag = true;
+          listChair.push(danhSachGhe[j])
+          // Tính tổng tiền và tổng số ghế người dùng đạng chọn
           totalChair++;
           totalSalary += danhSachGhe[j].gia;
-          listChair.push(danhSachGhe[j])
         }
       }
     }
+    // if flag === true thì hiển thị phần thanh toán
     if (flag) {
       return (
         <>

@@ -4,15 +4,20 @@ import { updateStatusChair } from '../redux/actions';
 // import TableRow from './TableRow';
 
 class TableSelectChair extends Component {
+
+  // Render thead của table chọn ghê
   renderTHead = () => {
     const tHead = [<th key={0}></th>];
-    const totalTH = 13;
-    for (let i = 1; i < totalTH; i++) {
-      tHead.push(<th key={i}>{i}</th>)
+    const { bookingTicket } = this.props
+    const data = [...bookingTicket.dataChair]
+    const totalTH = data[0].danhSachGhe.length;
+
+    for (let i = 0; i < totalTH; i++) {
+      tHead.push(<th key={i + 1}>{i + 1}</th>)
     }
     return tHead;
   }
-
+  // Xử lý khi người dùng click vào ghế
   handleClickChair = (chair) => {
     if (chair.daDat !== true) {
       this.props.updateStatusChair(chair)
@@ -22,8 +27,11 @@ class TableSelectChair extends Component {
   renderDataChair = () => {
 
     const { bookingTicket } = this.props
+    // Copy và bỏ phần tử đầu của dataChair
     const data = [...bookingTicket.dataChair]
     data.shift()
+
+    // Render row
     let table = data.map((row, key) => {
       const rowNumber = key
       return <tr key={key} >
@@ -33,7 +41,7 @@ class TableSelectChair extends Component {
         {row.danhSachGhe.map((chair, key) => {
           const chairTemp = { ...chair, rowNumber, colNumber: key }
           let gheDangChon = chairTemp.gheDangChon ? "gheDangChon" : ""
-
+          // render col
           return <td key={key} className="p-2">
             <button className={chair.daDat ? "gheDuocChon" : "ghe " + gheDangChon}
               onClick={() => {
@@ -44,7 +52,6 @@ class TableSelectChair extends Component {
         })}
       </tr >
     })
-    table = table.flat();
     return table
   }
   render() {
