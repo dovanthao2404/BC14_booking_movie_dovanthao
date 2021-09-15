@@ -36,7 +36,7 @@ class Payment extends Component {
       return (
         <>
           <h3>Tổng số ghế: {totalChair}</h3>
-          <h3>Tổng tiền: {totalSalary}</h3>
+          <h3>Tổng tiền: {totalSalary} VND</h3>
           <button className="btn btn-success" onClick={() => this.handlePayment(listChair)}>Thanh toán</button>
         </>
       )

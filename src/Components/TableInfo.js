@@ -30,7 +30,7 @@ class TableInfo extends Component {
             listTR.push(
               <tr key={chairCurrent.soGhe}>
                 <td>{chairCurrent.soGhe}</td>
-                <td>{chairCurrent.gia}</td>
+                <td>{chairCurrent.gia} VND</td>
                 <td>
                   <button className="btn btn-danger" onClick={() => this.handleClickCannel(chairTemp)}>X</button>
                 </td>
